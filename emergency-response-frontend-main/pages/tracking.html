@@ -1,0 +1,404 @@
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Track Ambulance | SmartEMS</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">+</span>
+        <span>Smart<span class="logo-red">EMS</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="emergency.html" class="dashboard-emergency">Emergency</a>
+        <a href="login.html" class="login-link">Logout</a>
+      </div>
+    </header>
+
+    <main class="tracking-page">
+      <div class="tracking-container">
+        <div class="tracking-header">
+          <div>
+            <span class="dashboard-eyebrow">LIVE EMERGENCY RESPONSE</span>
+            <h1>Ambulance <span>Tracking</span></h1>
+            <p>Monitor your emergency response and ambulance location.</p>
+          </div>
+          <span class="tracking-status">● Response Active</span>
+        </div>
+
+        <div class="tracking-grid">
+          <!-- MAP -->
+          <div class="tracking-map-card">
+            <div class="map-topbar">
+              <div>
+                <span class="map-label">LOCATION OVERVIEW</span>
+                <strong>Ambulance dispatch information</strong>
+              </div>
+              <span class="map-live">DEMO</span>
+            </div>
+
+            <div class="tracking-map">
+              <div class="map-grid-lines"></div>
+              <div class="route-line"></div>
+
+              <div class="map-marker user-marker">
+                <span class="marker-pulse"></span>
+                <div class="marker-icon">📍</div>
+              </div>
+
+              <div class="map-marker ambulance-marker">
+                <div class="ambulance-icon">🚑</div>
+              </div>
+
+              <div class="map-marker hospital-marker">
+                <div class="hospital-icon">🏥</div>
+              </div>
+
+              <div class="map-label-box user-label">Incident Location</div>
+              <div class="map-label-box ambulance-label">Ambulance</div>
+              <div class="map-label-box hospital-label">Hospital</div>
+            </div>
+
+            <div class="map-footer">
+              <span>📍 Location from dispatch data</span>
+              <span>Distance: <strong id="mapDistance">--</strong></span>
+            </div>
+          </div>
+
+          <!-- RESPONSE DETAILS -->
+          <div class="tracking-details">
+            <div class="tracking-card eta-card">
+              <span class="card-label">AMBULANCE DISTANCE</span>
+              <div class="eta-time">
+                <span id="distanceValue">--</span>
+                <span>km</span>
+              </div>
+              <p>Distance reported by the dispatch system.</p>
+            </div>
+
+            <div class="tracking-card">
+              <div class="tracking-card-header">
+                <div>
+                  <span class="card-label">AMBULANCE</span>
+                  <h2 id="ambulanceId">Ambulance</h2>
+                </div>
+                <div class="ambulance-small">🚑</div>
+              </div>
+
+              <div class="detail-row">
+                <span>Driver</span>
+                <strong id="ambulanceDriver">--</strong>
+              </div>
+              <div class="detail-row">
+                <span>Status</span>
+                <strong class="active-text" id="ambulanceStatus">--</strong>
+              </div>
+              <div class="detail-row">
+                <span>Contact</span>
+                <strong id="ambulancePhone">--</strong>
+              </div>
+            </div>
+
+            <div class="tracking-card">
+              <span class="card-label">DESTINATION</span>
+              <h2 id="hospitalName">Selected Hospital</h2>
+              <p class="hospital-description" id="hospitalDetails">
+                Hospital details will appear when dispatch data is available.
+              </p>
+              <div class="hospital-status">🏥 Hospital destination</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PATIENT PRECAUTIONS -->
+        <section
+          class="timeline-section"
+          id="precautionsSection"
+          style="margin-top: 28px"
+        >
+          <div class="section-heading-dashboard">
+            <span class="card-label">ML TRIAGE GUIDANCE</span>
+            <h2>Patient Precautions</h2>
+            <p id="precautionsPriority">Waiting for triage information.</p>
+          </div>
+
+          <div class="tracking-card">
+            <ul id="precautionsList" style="padding-left: 22px; line-height: 2">
+              <li>Loading precautions...</li>
+            </ul>
+
+            <p style="margin-top: 16px; color: #b45309">
+              Important: ML predictions are not medical diagnoses. Seek
+              emergency medical help immediately for severe or rapidly worsening
+              symptoms.
+            </p>
+          </div>
+        </section>
+
+        <!-- EMERGENCY TIMELINE -->
+        <section class="timeline-section">
+          <div class="section-heading-dashboard">
+            <span class="card-label">RESPONSE PROGRESS</span>
+            <h2>Emergency Timeline</h2>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-item completed">
+              <div class="timeline-marker">✓</div>
+              <div class="timeline-content">
+                <strong>Emergency request received</strong>
+                <span>Emergency registration status.</span>
+              </div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-marker">✓</div>
+              <div class="timeline-content">
+                <strong>Emergency severity assessed</strong>
+                <span id="triageMessage">Waiting for triage information.</span>
+              </div>
+            </div>
+
+            <div class="timeline-item completed">
+              <div class="timeline-marker">✓</div>
+              <div class="timeline-content">
+                <strong>Ambulance assignment</strong>
+                <span id="assignmentMessage"
+                  >Waiting for dispatch information.</span
+                >
+              </div>
+            </div>
+
+            <div class="timeline-item active">
+              <div class="timeline-marker">🚑</div>
+              <div class="timeline-content">
+                <strong>Ambulance status</strong>
+                <span id="travelMessage"
+                  >Check the ambulance status above.</span
+                >
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-marker">05</div>
+              <div class="timeline-content">
+                <strong>Hospital arrival</strong>
+                <span>Arrival confirmation is pending.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="../index.html" class="logo footer-logo">
+            <span class="logo-icon">+</span>
+            <span>Smart<span class="logo-red">EMS</span></span>
+          </a>
+          <p>Intelligent Emergency Triage &amp; Ambulance Dispatch System.</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Platform</h4>
+          <a href="how-it-works.html">How It Works</a>
+          <a href="services.html">Services</a>
+          <a href="about.html">About</a>
+        </div>
+
+        <div class="footer-column">
+          <h4>Account</h4>
+          <a href="login.html">User Login</a>
+          <a href="signup.html">Create Account</a>
+          <a href="admin-login.html">Admin Portal</a>
+        </div>
+
+        <div class="footer-column">
+          <h4>Emergency</h4>
+          <a href="emergency.html">Request Assistance</a>
+          <a href="tracking.html">Track Ambulance</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 SmartEMS. Academic Project.</span>
+        <span>Emergency Medical Response System</span>
+      </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        function readStoredData(key) {
+          try {
+            const value =
+              sessionStorage.getItem(key) ?? localStorage.getItem(key);
+
+            return value ? JSON.parse(value) : null;
+          } catch (error) {
+            console.error("Unable to read " + key, error);
+            return null;
+          }
+        }
+
+        const dispatchData = readStoredData("dispatchData") || {};
+        const emergencyData =
+          readStoredData("meddispatchEmergency") ||
+          readStoredData("meddispatchEmergencyPayload") ||
+          {};
+
+        console.log("Dispatch Data:", dispatchData);
+        console.log("Emergency Data:", emergencyData);
+
+        const emergency =
+          dispatchData.emergency || emergencyData.emergency || emergencyData;
+
+        const ambulance =
+          dispatchData.ambulance ||
+          emergency.ambulance_details ||
+          emergency.ambulance ||
+          null;
+
+        const hospital =
+          dispatchData.hospital ||
+          emergency.hospital_details ||
+          emergency.hospital ||
+          null;
+
+        // AMBULANCE DETAILS
+        if (ambulance) {
+          document.getElementById("ambulanceId").textContent = ambulance.id
+            ? "Ambulance #" + ambulance.id
+            : "Ambulance";
+
+          document.getElementById("ambulanceDriver").textContent =
+            ambulance.driver || "--";
+
+          document.getElementById("ambulanceStatus").textContent =
+            ambulance.status === "Busy"
+              ? "Dispatched / Busy"
+              : ambulance.status || "--";
+
+          document.getElementById("ambulancePhone").textContent =
+            ambulance.phone || "--";
+
+          const distance =
+            emergency.ambulance_distance_km ??
+            dispatchData.ambulance_distance_km ??
+            ambulance.distance_km ??
+            dispatchData.distance_km ??
+            "--";
+
+          const distanceText =
+            distance === "--" ? "--" : Number(distance).toFixed(2);
+
+          document.getElementById("distanceValue").textContent = distanceText;
+          document.getElementById("mapDistance").textContent =
+            distanceText === "--" ? "--" : distanceText + " km";
+
+          document.getElementById("assignmentMessage").textContent =
+            "Assigned ambulance: " + (ambulance.id || "not specified");
+
+          document.getElementById("travelMessage").textContent =
+            "Reported ambulance status: " + (ambulance.status || "Unknown");
+        } else {
+          document.getElementById("assignmentMessage").textContent =
+            "No ambulance information was found in saved dispatch data.";
+        }
+
+        // HOSPITAL DETAILS
+        if (hospital) {
+          document.getElementById("hospitalName").textContent =
+            hospital.name || "Selected Hospital";
+
+          document.getElementById("hospitalDetails").textContent =
+            [hospital.location, hospital.emergency]
+              .filter(Boolean)
+              .join(" • ") || "Hospital details unavailable.";
+        }
+
+        // PRIORITY AND PRECAUTIONS
+        const mlPrediction =
+          dispatchData.ml_prediction ||
+          emergencyData.ml_prediction ||
+          emergency.ml_prediction ||
+          {};
+
+        const priority =
+          dispatchData.triage_priority ||
+          dispatchData.priority ||
+          mlPrediction.priority ||
+          emergency.triage_priority ||
+          emergency.priority ||
+          "--";
+
+        document.getElementById("triageMessage").textContent =
+          priority === "--"
+            ? "Triage priority is not available in saved data."
+            : "Predicted triage priority: " + priority + ".";
+
+        document.getElementById("precautionsPriority").textContent =
+          "Predicted priority: " + priority;
+
+        const precautions =
+          dispatchData.precautions ||
+          mlPrediction.precautions ||
+          emergency.precautions ||
+          emergency.ml_prediction?.precautions ||
+          [];
+
+        const list = document.getElementById("precautionsList");
+        list.replaceChildren();
+
+        if (Array.isArray(precautions) && precautions.length > 0) {
+          precautions.forEach(function (item) {
+            const li = document.createElement("li");
+            li.textContent = String(item);
+            list.appendChild(li);
+          });
+        } else {
+          const li = document.createElement("li");
+          li.textContent =
+            "Precautions are not available in the saved data. " +
+            "Ensure the emergency submission and dispatch code saves " +
+            "the precautions returned by the backend.";
+          list.appendChild(li);
+        }
+
+        // HEADER
+        const trackingDescription =
+          document.querySelector(".tracking-header p");
+
+        if (trackingDescription && priority !== "--") {
+          trackingDescription.textContent =
+            "Emergency triage priority: " +
+            priority +
+            ". See the dispatch details and precautions below.";
+        }
+
+        console.log("Tracking page loaded.");
+      });
+    </script>
+  </body>
+</html>
+```
